@@ -1,8 +1,8 @@
 $(document).ready(function(){
   var clickTargetIdName,
+  clickTargetParthialIdName,
   extractedDate,
   workingTimeData;
-  var clickTargetParthialIdName = 'idTimesheetEdit-';
   var timeSet = {
     start: '',
     end: '',
@@ -17,6 +17,7 @@ $(document).ready(function(){
 
   $('.clEdit').on('click', function(){
     var self = $(this);
+    clickTargetParthialIdName = 'idTimesheetEdit-';
     clickTargetIdName = self.find('a[id^=' + clickTargetParthialIdName + ']').attr('id');
     extractedDate = clickTargetIdName.replace(clickTargetParthialIdName, '');
     workingTimeData = self.closest('tr').find('td[class$=' + extractedDate + ']');
