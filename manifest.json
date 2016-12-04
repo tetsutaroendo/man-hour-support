@@ -1,0 +1,13 @@
+{
+  "name": "ManHourSupportChromeAddon",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "工数入力の補助",
+  "content_scripts": [
+      {
+        "matches": [""],
+        "js": ["jquery-3.1.1.min.js", "main.js"],
+        "run_at": "document_idle"
+      }
+    ]
+}
