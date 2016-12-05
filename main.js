@@ -21,13 +21,23 @@ $(document).ready(function(){
     clickTargetIdName = self.find('a[id^=' + clickTargetParthialIdName + ']').attr('id');
     extractedDate = clickTargetIdName.replace(clickTargetParthialIdName, '');
     workingTimeData = self.closest('tr').find('td[class$=' + extractedDate + ']');
+    var nullFlag = false;
     Object.keys(timeSet).forEach(function(key){
       var timeIdName = '#id' + key.replace(/^./, function(l){return l.toUpperCase()}) + 'time-' + extractedDate;
       timeSet[key] = workingTimeData.find(timeIdName).html();
-      timeSet[key] = timeSet[key].match(/(\d+).+(\d+)/)[1] * 60
-        + parseInt(timeSet[key].match(/(\d+).+(\d+)/)[2]);
+      var matchedTime = timeSet[key].match(/(\d+).+(\d+)/);
+      if(!matchedTime){
+        timeSet[key] = null;
+        nullFlag = true;
+      }else{
+        timeSet[key] = matchedTime[1] * 60 + parseInt(matchedTime[2]);
+      }
     });
-    unenteredTime.allMinutes = (timeSet.end - timeSet.start - timeSet.rest);
+    if(nullFlag){
+      unenteredTime.allMinutes = 0;
+    }else{
+      unenteredTime.allMinutes = (timeSet.end - timeSet.start - timeSet.rest);
+    }
     unenteredTime.hours = parseInt(unenteredTime.allMinutes / 60);
     unenteredTime.minutes = unenteredTime.allMinutes % 60;
     $('.clBoxWorkProject').after(
@@ -36,7 +46,7 @@ $(document).ready(function(){
       '<td class="field clUnenteredtimeTotal">' +
       '<span id="idUnenteredtimeTotalH" class="fs150 bold">' +
       unenteredTime.hours +
-      '</span> 時間' +
+      '</span> 時間 ' +
       '<span id="idUnenteredtimeTotalM" class="fs150 bold">' +
       unenteredTime.minutes +
       '</span> 分' +
@@ -52,9 +62,9 @@ $(document).ready(function(){
     $('#idUnenteredtimeTotalH').html(unenteredTime.hours);
     $('#idUnenteredtimeTotalM').html(unenteredTime.minutes);
     if(unenteredTime.hours === 0 && unenteredTime.minutes === 0){
-      $('#idUnenteredtimeTotalH, #idUnenteredtimeTotalM').addClass('warning');
-    }else{
       $('#idUnenteredtimeTotalH, #idUnenteredtimeTotalM').removeClass('warning');
+    }else{
+      $('#idUnenteredtimeTotalH, #idUnenteredtimeTotalM').addClass('warning');
     }
   });
   var moTargetH = document.getElementById('idJobtimeTotalH');
