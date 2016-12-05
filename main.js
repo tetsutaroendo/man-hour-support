@@ -41,18 +41,27 @@ $(document).ready(function(){
     unenteredTime.hours = parseInt(unenteredTime.allMinutes / 60);
     unenteredTime.minutes = unenteredTime.allMinutes % 60;
     $('.clBoxWorkProject').after(
-      '<tr id="idUnenteredtimeTotal">' +
-      '<th class="caption fs12px">未入力工数</th>' +
-      '<td class="field clUnenteredtimeTotal">' +
-      '<span id="idUnenteredtimeTotalH" class="fs150 bold">' +
+      '<tr id="idWorktimeTotal">' +
+      '<th class="caption fs12px">労働時間合計</th>' +
+      '<td class="field clWorktimeTotal">' +
+      '<span id="idWorktimeTotalH" class="fs150 bold">' +
       unenteredTime.hours +
       '</span> 時間 ' +
-      '<span id="idUnenteredtimeTotalM" class="fs150 bold">' +
+      '<span id="idWorktimeTotalM" class="fs150 bold">' +
       unenteredTime.minutes +
       '</span> 分' +
       '</td>' +
       '</tr>'
     );
+    $('.clJobtimeTotal').append(
+      '<span id="idUnenteredtimeTotal">  (未入力工数 <span id="idUnenteredtimeTotalH" class="fs100 bold">' +
+      unenteredTime.hours +
+      '</span> 時間 ' +
+      '<span id="idUnenteredtimeTotalM" class="fs100 bold">' +
+      unenteredTime.minutes +
+      '</span> 分)</span>'
+    );
+
   });
 
   var mo = new MutationObserver(function(){
@@ -74,13 +83,13 @@ $(document).ready(function(){
   mo.observe(moTargetM, moConfig);
 
   $(document).on('click', '#button-tmpclose, #button-finish, #button-cancel, .ui-dialog-titlebar-close', function(e){
-    $('#idUnenteredtimeTotal').remove();
+    $('#idWorktimeTotal, #idUnenteredtimeTotal').remove();
     return false;
   });
 
   $(window).on('keyup', function(e){
     if(e.keyCode === 27) {
-      $('#idUnenteredtimeTotal').remove();
+      $('#idWorktimeTotal, #idUnenteredtimeTotal').remove();
     }
   });
 });
